@@ -3,7 +3,7 @@
     "username": "root",
     "password": "root",
     "database": "event",
-    "host": "wonderjar.tunnel.mobi",
+    "host": "127.0.0.1",
     "dialect": "mysql",
     "timezone": "+08:00",
     "define": {

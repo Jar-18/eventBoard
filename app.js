@@ -37,7 +37,18 @@ var wechatConfig = {
 
 app.use(express.query());
 app.use('/wechat', wechat(config[env].wechat.token, function (req, res, next) {
-  console.log(req.weixin);
+  var message = req.weixin;
+  console.log(message);
+  if((message.MsgType === 'event') && (message.Event === 'subscribe'))
+  {
+    var replyStr = '感谢你的关注'
+      + '\n'
+      + '快为TA送出你的生日祝福吧'
+      + '\n'
+      + '点击下方Bless来选择近期过生日的小伙伴吧';
+    res.reply(replyStr);
+  }
+  console.log(message.FromUserName);
   next()
 }));
 
