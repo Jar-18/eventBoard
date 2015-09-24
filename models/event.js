@@ -10,8 +10,12 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    userId: DataTypes.INTEGER,
-    status: DataTypes.INTEGER
+    status: DataTypes.INTEGER,
+    name: DataTypes.STRING,
+    img: {
+      type: DataTypes.STRING,
+      defaultValue: 'http://wx.qlogo.cn/mmopen/YN4KvDpnViawsk9CXOvgPtkLyicJGBBmf6Qwh1AVrWhqDd6JlWMaGXwkzDCSfObZIlVuIvxJO2sZEvyhCQUK75BwrYzAvgFC0H/0'
+    }
   }, {
     timestamps: true,
     classMethods: {
@@ -19,10 +23,6 @@ module.exports = function(sequelize, DataTypes) {
         Event.hasMany(models.Bless, {
           as: "blessses",
           foreignKey: "eventId"
-        });
-        Event.belongsTo(models.User, {
-          as: "targetUser",
-          foreignKey: "userId"
         });
       }
     }

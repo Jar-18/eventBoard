@@ -20,7 +20,9 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -36,23 +38,64 @@ var wechatConfig = {
 };
 
 app.use(express.query());
-app.use('/wechat', wechat(config[env].wechat.token, function (req, res, next) {
+
+var links1 = "";
+var links2 = "";
+
+var eventData = require('./data/event.json');
+
+app.use('/wechat', wechat(config[env].wechat.token, function(req, res, next) {
   var message = req.weixin;
   console.log(message);
-  if((message.MsgType === 'event') && (message.Event === 'subscribe'))
-  {
-    var replyStr = '感谢你的关注'
-      + '\n'
-      + '快为TA送出你的生日祝福吧'
-      + '\n'
-      + '点击下方Bless来选择近期过生日的小伙伴吧';
-    res.reply(replyStr);
+
+  var replyStr;
+
+
+  if ((message.MsgType === 'event') && (message.Event === 'subscribe')) {
+    replyStr = '感谢你的关注' + '\n' + '快点击下方Bless按钮找到你的小伙伴送出你的生日祝福吧' + '\n';
+  } else if ((message.MsgType === 'event') && (message.EventKey === 'bless1')) {
+    if (!links1) {
+      for (var i = 0; i < 6; i++) {
+        var item = eventData[i];
+        links1 += (i + 1);
+        links1 += '. ';
+        links1 += ('<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4006f6ce87392229&redirect_uri=http%3A%2F%2Fwonderjar.tunnel.mobi&response_type=code&scope=snsapi_userinfo&state=' + (i + 1) + '#wechat_redirect">' + item.name + '</a>');
+        links1 += '\n\n'
+      }
+    }
+    replyStr = links1;
+  } else if ((message.MsgType === 'event') && (message.EventKey === 'bless2')) {
+    if (!links2) {
+      for (var i = 6; i < 12; i++) {
+        var item = eventData[i];
+        links2 += (i + 1);
+        links2 += '. ';
+        links2 += ('<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4006f6ce87392229&redirect_uri=http%3A%2F%2Fwonderjar.tunnel.mobi&response_type=code&scope=snsapi_userinfo&state=' + (i + 1) + '#wechat_redirect">' + item.name + '</a>');
+        links2 += '\n\n'
+      }
+    }
+    replyStr = links2;
+  } else {
+    replyStr = '虽然现在不懂你在说什么，但我以后可能会懂';
   }
-  console.log(message.FromUserName);
-  next()
+
+  res.reply(replyStr);
 }));
 
 app.use('/', routes);
+
+
+//Create test data
+var env = process.env.NODE_ENV || 'development';
+if (env === 'test') {
+  var models = require('./models');
+  models.sequelize.sync({
+      force: true
+    })
+    .then(function() {
+      models.Event.bulkCreate(eventData);
+    });
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -17,7 +17,8 @@ module.exports = function(sequelize, DataTypes) {
     province: DataTypes.STRING,
     city: DataTypes.STRING,
     headimgurl: DataTypes.STRING,
-    unionid: DataTypes.STRING
+    unionid: DataTypes.STRING,
+    code: DataTypes.STRING
   }, {
     timestamps: true,
   });

@@ -11,7 +11,7 @@ block content
 		.role
 			.pic
 				.pic_back
-					.profile
+					img.profile(src="#{eventImg}")
 
 			.word
 				| Happy Birthday!
@@ -22,12 +22,25 @@ block content
 				.userInfo
 					img(src=bless.from.headimgurl)
 				.blessText
-					p= bless.from.nickname + " : " + bless.content
+					p.content= bless.content
+					p.signature= "-- " + bless.from.nickname
 				.clear
-	.bottom
-		.inputContainer
-			input#newBless
-			input#userId(type="hidden" value="#{userId}")
-			input#eventId(type="hidden" value="#{eventId}")
-		.sendBtn Send
+	-if(userId)
+		.blank
+		.bottom
+			.inputContainer
+				input#newBless(type="text")
+				input#userId(type="hidden" value="#{userId}")
+				input#eventId(type="hidden" value="#{eventId}")
+			.sendBtn Write
+		script(src='http://res.wx.qq.com/open/js/jweixin-1.0.0.js')
+		script(type='text/javascript').
+			var to = '#{to}';
+			var eventId = '#{eventId}';
+			var eventImg = '#{eventImg}';
+			var signature = '#{signature}';
+			var nonceStr = '#{nonceStr}';
+			var timestamp = '#{timestamp}';
+			var appId = '#{appId}';
+		script(src="/javascripts/wechat/sharing.js")
 	script(src='/javascripts/event/list.js')

@@ -1,0 +1,11 @@
+ {
+   "button": [{
+     "name": "Bless - 1",
+     "type": "click",
+     "key": "bless1"
+   }, {
+     "name": "Bless - 2",
+     "type": "click",
+     "key": "bless2"
+   }]
+ }
