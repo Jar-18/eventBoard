@@ -1,18 +1,28 @@
 extends ../layout
 
 block head
+	meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=no')
+	meta(charset='utf-8')
 	title Bless to #{to}
 	link(rel='stylesheet', href='/stylesheets/event.css')
 
 block content
 	.list
+		.role
+			.pic
+				.pic_back
+					.profile
+
+			.word
+				| Happy Birthday!
+				.decoration
+
 		each bless in blessList
 			.item
 				.userInfo
 					img(src=bless.from.headimgurl)
-					i= bless.from.nickname
 				.blessText
-					p= bless.content
+					p= bless.from.nickname + " : " + bless.content
 				.clear
 	.bottom
 		.inputContainer
