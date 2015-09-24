@@ -1,0 +1,23 @@
+extends ../layout
+
+block head
+	title Bless to #{to}
+	link(rel='stylesheet', href='/stylesheets/event.css')
+
+block content
+	.list
+		each bless in blessList
+			.item
+				.userInfo
+					img(src=bless.from.headimgurl)
+					i= bless.from.nickname
+				.blessText
+					p= bless.content
+				.clear
+	.bottom
+		.inputContainer
+			input#newBless
+			input#userId(type="hidden" value="#{userId}")
+			input#eventId(type="hidden" value="#{eventId}")
+		.sendBtn Send
+	script(src='/javascripts/event/list.js')

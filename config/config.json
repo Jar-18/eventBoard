@@ -1,0 +1,50 @@
+{
+  "development": {
+    "username": "root",
+    "password": "root",
+    "database": "event",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "timezone": "+08:00",
+    "define": {
+        "charset": "utf8mb4"
+    },
+    "wechat": {
+    	"appID": "wx4006f6ce87392229",
+    	"appsecret": "f9e381646007fb802406418cdc48bb94",
+    	"token": "wechat_token"
+    }
+  },
+  "test": {
+    "username": "root",
+    "password": "root",
+    "database": "event",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "timezone": "+08:00",
+    "define": {
+        "charset": "utf8mb4"
+    },
+    "wechat": {
+    	"appID": "wx4006f6ce87392229",
+    	"appsecret": "f9e381646007fb802406418cdc48bb94",
+    	"token": "wechat_token"
+    }
+  },
+  "production": {
+    "username": "root",
+    "password": "root",
+    "database": "event",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "timezone": "+08:00",
+    "define": {
+        "charset": "utf8mb4"
+    },
+    "wechat": {
+    	"appID": "wx4006f6ce87392229",
+    	"appsecret": "f9e381646007fb802406418cdc48bb94",
+    	"token": "wechat_token"
+    }
+  }
+}
