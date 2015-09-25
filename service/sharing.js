@@ -21,6 +21,7 @@ var getTicket = function() {
     res.on('data', function(chunk) {
       var resData = JSON.parse(chunk);
       accessToken = resData.access_token;
+      console.log(resData);
       console.log('jssdk_access_token: ' + accessToken);
     });
 
@@ -29,6 +30,7 @@ var getTicket = function() {
         // 这个异步回调里可以获取ticket
         _res.on('data', function(chunk) {
           var _resData = JSON.parse(chunk);
+          console.log(_resData);
           ticket = _resData.ticket;
           console.log('ticket: ' + ticket);
           deferred.resolve(ticket);

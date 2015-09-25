@@ -12,14 +12,19 @@ exports.resolveUser = function(code) {
 
 	console.log('code:' + code);
 
-	models.User.find({
+	models.UsedCode.find({
 		where: {
 			code: code
 		}
-	}).then(function(user) {
-		if (user) {
-			deferred.resolve(user.id);
+	}).then(function(usedCode) {
+		if (usedCode) {
+			deferred.resolve(null);
 		} else {
+
+			models.UsedCode.create({
+				code: code
+			});
+
 			var getAccessTokenUrl = urlHelper.getAccessTokenUrl(code);
 			var accesstokenReq = https.get(getAccessTokenUrl, function(res) {
 				console.log(getAccessTokenUrl);
@@ -32,15 +37,11 @@ exports.resolveUser = function(code) {
 
 					models.User.find({
 						where: {
-							openid: jsonData.openid,
+							openid: jsonData.openid
 						}
 					}).then(function(user) {
 						if (user) {
-							user.updateAttributes({
-								code: code
-							}).then(function(result) {
-								deferred.resolve(user.id);
-							});
+							deferred.resolve(user.id);
 						} else {
 							var getUserInfoUrl = urlHelper.getUserInfoUrl(accessToken, openID);
 							var infoReq = https.get(getUserInfoUrl, function(res) {
@@ -59,7 +60,7 @@ exports.resolveUser = function(code) {
 					})
 				});
 				res.on('end', function() {
-					console.log('no more data');
+					//console.log('no more data');
 				});
 			});
 		}
